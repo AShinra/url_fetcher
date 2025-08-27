@@ -3,6 +3,7 @@ from common import connect_to_mongodb, insert_document, check_if_document_exist,
 import re
 from datetime import datetime
 import json
+import time
 
 
 def url_fetcher(fetcher_url, fetcher_title_selector, fetcher_url_selector):
@@ -10,29 +11,33 @@ def url_fetcher(fetcher_url, fetcher_title_selector, fetcher_url_selector):
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
+        response = get_url_response(page, f'{fetcher_url}')
+
         for i in range(1, 21):
-            response = get_url_response(page, f'{fetcher_url}{i}')
-            if response.status == 200:
-                try:
-                    page.wait_for_selector(fetcher_title_selector, timeout=60000)  # wait for the element to load
-                    items = page.query_selector_all(fetcher_title_selector)                
-                except Exception as e:
-                    print(f'page {i} - {e}')
-                else:
-                    for item in items:
-                        # get url
-                        try:
-                            url = item.query_selector(fetcher_url_selector).query_selector('a').get_attribute('href')
-                        except:
-                            url = item.query_selector('a').get_attribute('href')
-                        finally:
-                            url_list.append([datetime.now(), url])
+            page.keyboard.press("End")
+            time.sleep(5)
+
+        if response.status == 200:
+            try:
+                page.wait_for_selector(fetcher_title_selector, timeout=60000)  # wait for the element to load
+                items = page.query_selector_all(fetcher_title_selector)                
+            except Exception as e:
+                print(f'page {i} - {e}')
+            else:
+                for item in items:
+                    # get url
+                    try:
+                        url = item.query_selector(fetcher_url_selector).query_selector('a').get_attribute('href')
+                    except:
+                        url = item.query_selector('a').get_attribute('href')
+                    finally:
+                        url_list.append([datetime.now(), url])
                     
         browser.close()
     return url_list
     
 
-def fetcher1(fetcher_data):
+def fetcher2(fetcher_data):
 
     fetcher_url = fetcher_data['url']
     fetcher_title_selector = fetcher_data['title_selector']

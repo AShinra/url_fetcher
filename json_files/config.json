@@ -33,5 +33,16 @@
         "url":"https://malaya.com.ph/2025/page/",
         "title_selector":"div.td-module-meta-info",
         "url_selector":"h3.entry-title"
+    },
+    "gma":{
+        "url":"https://www.gmanetwork.com/news/archives/just_in",
+        "title_selector":"li.story",
+        "url_selector":"div"
+    },
+    "manilabulletin":{
+        "url":"https://mb.com.ph/search?limit=12&query=&page=",
+        "title_selector":"div.col-md-3",
+        "url_selector":"a"
     }
+
 }

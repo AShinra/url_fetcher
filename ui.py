@@ -11,6 +11,7 @@ from datetime import datetime
 import pandas as pd
 import json
 from url_fetcher1 import fetcher1
+from url_fetcher2 import fetcher2
 
 
 
@@ -137,6 +138,8 @@ class SimpleUI(QMainWindow):
             
             if fetcher_setting[selected_item][-1]==1:
                 fetcher1(fetcher_data)
+            if fetcher_setting[selected_item][-1]==2:
+                fetcher2(fetcher_data)
         
         logs = buffer.getvalue()
         self.console_fetcher.appendPlainText(logs if logs else "No logs captured.")
