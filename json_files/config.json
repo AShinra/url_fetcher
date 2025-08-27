@@ -1,0 +1,22 @@
+{
+    "bilyonaryo":{
+        "url":"http://bilyonaryo.com/2025/page/",
+        "title_selector":"div.elementor-post__text",
+        "url_selector":"h3.elementor-post__title"
+    },
+    "businessmirror":{
+        "url":"http://businessmirror.com.ph/2025/page/",
+        "title_selector":"header.entry-header",
+        "url_selector":"h2.entry-title"
+    },
+    "technewsph":{
+        "url":"http://www.technewsphilippines.com/page/",
+        "title_selector":"article.item-list",
+        "url_selector":"h2.post-box-title"
+    },
+    "pna":{
+        "url":"https://www.pna.gov.ph/articles/search?q=&p=",
+        "title_selector":"div.article-item",
+        "url_selector":"h2.font-semibold"
+    }
+}
