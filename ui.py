@@ -127,25 +127,16 @@ class SimpleUI(QMainWindow):
                 
         with open("json_files/config.json", "r", encoding="utf-8") as file:
             data = json.load(file)
+        
+        with open("json_files/fetcher_setting.json", "r", encoding="utf-8") as file:
+            fetcher_setting = json.load(file)
 
         buffer = io.StringIO()
         with contextlib.redirect_stdout(buffer), contextlib.redirect_stderr(buffer):
-            if selected_item=='Bilyonaryo':
-                fetcher_data = data['bilyonaryo']
-            if selected_item=='BusinessMirror':
-                fetcher_data = data['businessmirror']
-            if selected_item=='TechNewsPhilippines':
-                fetcher_data = data['technewsph']
-            if selected_item=='Philippine News Agency':
-                fetcher_data = data['pna']
-            if selected_item=='Business World':
-                fetcher_data = data['businessworld']
-            if selected_item=='Philstar Tech':
-                fetcher_data = data['philstartech']
-            if selected_item=='Malaya Business Insight':
-                fetcher_data = data['malaya']
-
-            fetcher1(fetcher_data)
+            fetcher_data = data[fetcher_setting[selected_item][0]]
+            
+            if fetcher_setting[selected_item][-1]==1:
+                fetcher1(fetcher_data)
         
         logs = buffer.getvalue()
         self.console_fetcher.appendPlainText(logs if logs else "No logs captured.")
