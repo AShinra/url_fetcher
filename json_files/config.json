@@ -18,5 +18,15 @@
         "url":"https://www.pna.gov.ph/articles/search?q=&p=",
         "title_selector":"div.article-item",
         "url_selector":"h2.font-semibold"
+    },
+    "businessworld":{
+        "url":"https://www.bworldonline.com/2025/page/",
+        "title_selector":"div.td-cpt-post",
+        "url_selector":"h3.entry-title"
+    },
+    "philstartech":{
+        "url":"https://philstartech.com/all-posts/page/",
+        "title_selector":"article",
+        "url_selector":"h2.post-title"
     }
 }

@@ -21,7 +21,10 @@ def url_fetcher(fetcher_url, fetcher_title_selector, fetcher_url_selector):
                 else:
                     for item in items:
                         # get url
-                        url = item.query_selector(fetcher_url_selector).query_selector('a').get_attribute('href')
+                        try:
+                            url = item.query_selector(fetcher_url_selector).query_selector('a').get_attribute('href')
+                        except:
+                            url = item.query_selector('a').get_attribute('href')
                         url = url.rstrip('/')
                         url = re.sub('https', 'http', url)
                         url_list.append([datetime.now(), url])

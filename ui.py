@@ -93,7 +93,7 @@ class SimpleUI(QMainWindow):
             pub_data = json.load(file)
 
         # Add items to combobox
-        self.combobox_fetcher.addItems(pub_data['publications'])
+        self.combobox_fetcher.addItems(sorted(pub_data['publications']))
 
         # Row for label + combobox
         row1_layout = QHBoxLayout()
@@ -138,6 +138,10 @@ class SimpleUI(QMainWindow):
                 fetcher_data = data['technewsph']
             if selected_item=='Philippine News Agency':
                 fetcher_data = data['pna']
+            if selected_item=='Business World':
+                fetcher_data = data['businessworld']
+            if selected_item=='Philstar Tech':
+                fetcher_data = data['philstartech']
 
             fetcher1(fetcher_data)
         
