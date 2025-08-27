@@ -11,7 +11,7 @@ def connect_to_maindb():
 
 def insert_document(db, collection, document):
     inserted_id = collection.insert_one(document).inserted_id
-    print(f"Inserted document ID: {inserted_id}")
+    # print(f"Inserted document ID: {inserted_id}")
     return
 
 def check_if_document_exist(db, collection, document):

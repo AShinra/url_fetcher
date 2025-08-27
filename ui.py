@@ -142,6 +142,8 @@ class SimpleUI(QMainWindow):
                 fetcher_data = data['businessworld']
             if selected_item=='Philstar Tech':
                 fetcher_data = data['philstartech']
+            if selected_item=='Malaya Business Insight':
+                fetcher_data = data['malaya']
 
             fetcher1(fetcher_data)
         

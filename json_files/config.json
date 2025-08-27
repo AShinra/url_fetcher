@@ -28,5 +28,10 @@
         "url":"https://philstartech.com/all-posts/page/",
         "title_selector":"article",
         "url_selector":"h2.post-title"
+    },
+    "malaya":{
+        "url":"https://malaya.com.ph/2025/page/",
+        "title_selector":"div.td-module-meta-info",
+        "url_selector":"h3.entry-title"
     }
 }
