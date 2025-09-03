@@ -102,12 +102,15 @@ class SimpleUI(QMainWindow):
         self.submit_button = QPushButton("Submit", self)
         self.clear_button = QPushButton("Clear Console", self)        
 
-        # load available publications from json file
-        with open("json_files/publications.json", "r", encoding="utf-8") as file:
-            pub_data = json.load(file)
+        # load available publications from mongodb
+        collection = self.db["publication_settings"]
+        items = list(collection.find())
+
+        # get the publication list and sort
+        pub_list = sorted([item['pub_name'] for item in items])
 
         # Add items to combobox
-        self.combobox_fetcher.addItems(sorted(pub_data['publications']))
+        self.combobox_fetcher.addItems(pub_list)
 
         # Row for label + combobox
         row1_layout = QHBoxLayout()
@@ -138,18 +141,14 @@ class SimpleUI(QMainWindow):
 
     def processing(self):
         selected_item = self.combobox_fetcher.currentText()
-                
-        with open("json_files/config.json", "r", encoding="utf-8") as file:
-            data = json.load(file)
-        
-        with open("json_files/fetcher_setting.json", "r", encoding="utf-8") as file:
-            fetcher_setting = json.load(file)
 
+        collection = self.db["publication_settings"]
+        fetcher_data = collection.find_one({'pub_name':selected_item})
+        
         buffer = io.StringIO()
         with contextlib.redirect_stdout(buffer), contextlib.redirect_stderr(buffer):
-            fetcher_data = data[fetcher_setting[selected_item][0]]
-            fetcher_number = fetcher_setting[selected_item][-1]
-            fetcher(fetcher_data, fetcher_number)
+        
+            fetcher(fetcher_data)
             
             logs = buffer.getvalue()
             self.console_fetcher.appendPlainText(logs if logs else "No logs captured.")
@@ -464,7 +463,7 @@ class SimpleUI(QMainWindow):
         label_title.setStyleSheet("border: 2px solid gray; color: cyan; font-weight: bold")
         label_title.setFixedWidth(150)
 
-        label_fetcherno = QLabel('FETCHER NO.', self)
+        label_fetcherno = QLabel('FETCHER TYPE', self)
         label_fetcherno.setAlignment(Qt.AlignCenter)
         label_fetcherno.setStyleSheet("border: 2px solid gray; color: cyan; font-weight: bold")
         label_fetcherno.setFixedWidth(150)
@@ -480,6 +479,7 @@ class SimpleUI(QMainWindow):
         # ---Buttons---
         btn_add = QPushButton('ADD CONFIGURATION', self)
         btn_clear = QPushButton('CLEAR', self)
+        btn_test = QPushButton('TEST')
 
         # create layout containers
         main_layout = QVBoxLayout()
@@ -501,8 +501,7 @@ class SimpleUI(QMainWindow):
 
         bottom_layout.addWidget(btn_add)
         bottom_layout.addWidget(btn_clear)
-        # container_layout.addWidget(btn_add, 6, 1)
-        # container_layout.addWidget(btn_clear, 7, 1)
+        bottom_layout.addWidget(btn_test)
         
         main_layout.addLayout(container_layout)
         main_layout.addLayout(bottom_layout)
@@ -539,6 +538,16 @@ class SimpleUI(QMainWindow):
                 QMessageBox.information(self, "Success", "New configuration added")                
             else:
                 QMessageBox.warning(self, "Existing", f"There is an existing configuration for {pub}")
+
+
+    def test_config(self):
+        '''Test new configurations'''
+        pub = self.tb_pub.text()
+        url = self.tb_url.text()
+        container = self.tb_container.text()
+        title = self.tb_title.text()
+        fetcherno = int(self.combo_fetcherno.currentText())
+
 
 
     def clear_fields(self):

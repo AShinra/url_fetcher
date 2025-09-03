@@ -64,16 +64,18 @@ def url_fetcher2(fetcher_url, fetcher_title_selector, fetcher_url_selector):
     return url_list
     
 
-def fetcher(fetcher_data, fetcher_number):
+# def fetcher(fetcher_data, fetcher_number):
+def fetcher(fetcher_data):
 
-    fetcher_url = fetcher_data['url']
-    fetcher_title_selector = fetcher_data['title_selector']
-    fetcher_url_selector = fetcher_data['url_selector']
+    _fetcher_url = fetcher_data['fetcher_url']
+    fetcher_title_selector = fetcher_data['selector_container']
+    fetcher_url_selector = fetcher_data['selector_title']
+    fetcher_type = fetcher_data['fetcher_no']
 
-    if fetcher_number==1:
-        url_list = url_fetcher1(fetcher_url, fetcher_title_selector, fetcher_url_selector)
-    elif fetcher_number==2:
-        url_list = url_fetcher2(fetcher_url, fetcher_title_selector, fetcher_url_selector)
+    if fetcher_type==1:
+        url_list = url_fetcher1(_fetcher_url, fetcher_title_selector, fetcher_url_selector)
+    elif fetcher_type==2:
+        url_list = url_fetcher2(_fetcher_url, fetcher_title_selector, fetcher_url_selector)
 
     url_count = len(url_list)
     print(f'Collected {url_count} links')
